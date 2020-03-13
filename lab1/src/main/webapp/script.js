@@ -4,14 +4,6 @@ let camera, renderer, scene, wSocket, connected, core;
 init();
 animate();
 
-document.addEventListener("resize", resize);
-
-function resize() {
-    renderer.setSize(window.innerWidth, window.innerHeight - document.getElementById("info").offsetHeight);
-    console.log("her");
-}
-
-
 function connect() {
     wSocket = new WebSocket("ws://localhost:8080/action");
     wSocket.onmessage = onMessage;

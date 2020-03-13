@@ -58,7 +58,7 @@ public class WebSocketServer {
         if (webSocketSession != null) {
             sessions.remove(webSocketSession);
         }
-        System.out.println("session closed: " + session.getId());
+        System.out.println("Session closed: " + session.getId());
     }
 
     private WebSocketSession findSession(Session session) {

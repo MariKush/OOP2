@@ -40,7 +40,7 @@ public class Main extends Application {
         });
 
     FlowPane root = new FlowPane(Orientation.HORIZONTAL, 10, 10, buttonC, buttonS);
-    Scene scene = new Scene(root, 200, 300);
+    Scene scene = new Scene(root, 150, 200);
     stage.setScene(scene);
     stage.show();
   }

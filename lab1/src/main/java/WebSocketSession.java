@@ -14,13 +14,11 @@ public class WebSocketSession {
 
     double sleepingTime = 0.01;
 
-
     public void fire(int x, int y, int z, double vx, double vy, double vz, double gravity) {
         if (fireRunner != null) {
             return;
         }
         final CoreFly coreFly = new CoreFly(x, y, z, vx, vy, vz, gravity);
-        //sendInfo(gravity, angle, v0);
         fireRunner = new Thread(new Runnable() {
             @Override
             public void run() {

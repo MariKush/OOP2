@@ -16,7 +16,7 @@ public class Viewer {
   public Viewer(GameLogic gameLogic, Stage stage) {
     FlowPane root = new FlowPane(VERTICAL, 10, 10);
 
-    Scene scene = new Scene(root, 200, 300);
+    Scene scene = new Scene(root, 150, 200);
     stage.setScene(scene);
 
     Button restartBTN = new Button("restart");
@@ -34,7 +34,7 @@ public class Viewer {
         Button b = new Button();
         int finalJ = x;
         int finalI = y;
-        b.setMinSize(30, 30);
+        b.setMinSize(40, 40);
         b.setOnAction(actionEvent -> gameLogic.clicked(finalJ, finalI));
 
         hBox.getChildren().add(b);

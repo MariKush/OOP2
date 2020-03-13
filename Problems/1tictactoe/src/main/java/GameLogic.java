@@ -17,8 +17,8 @@ public class GameLogic {
 
     viewer = new Viewer(this, stage);
     myTurn = isServer;
-    if (myTurn) viewer.setText("Play!");
-    else viewer.setText("Wait...");
+    if (myTurn) viewer.setText("   Play!");
+    else viewer.setText("   Wait...");
     myCell = isServer ? Grid.Cell.X : Grid.Cell.O;
     anotherCell = isServer ? Grid.Cell.O : Grid.Cell.X;
     waitAnotherPlayer();
@@ -33,7 +33,7 @@ public class GameLogic {
     if (!myTurn) return;
     if (grid.setCell(x, y, myCell)) {
       viewer.setCell(x, y, myCell);
-      viewer.setText("Wait...");
+      viewer.setText("   Wait...");
       messageManager.sendPoint(x, y);
       myTurn = false;
       if (grid.getWinner() == myCell) {
@@ -49,17 +49,17 @@ public class GameLogic {
   }
 
   public void nobodyWin() {
-    viewer.setText("nobody Win");
+    viewer.setText("   nobody Win");
     restart();
   }
 
   public void playerWin() {
-    viewer.setText("YOU WIN :)");
+    viewer.setText("   YOU WIN :)");
     restart();
   }
 
   public void playerLose() {
-    viewer.setText("YOU LOSE :(");
+    viewer.setText("   YOU LOSE :(");
     restart();
   }
 
@@ -75,8 +75,8 @@ public class GameLogic {
               }
               viewer.restart();
               grid.restart();
-              if (myTurn) viewer.setText("Play!");
-              else viewer.setText("Wait...");
+              if (myTurn) viewer.setText("   Play!");
+              else viewer.setText("   Wait...");
             });
     thread.start();
   }
@@ -86,7 +86,7 @@ public class GameLogic {
       grid.setCell(p.x, p.y, anotherCell);
       viewer.setCell(p.x, p.y, anotherCell);
       myTurn = true;
-      viewer.setText("Play!");
+      viewer.setText("   Play!");
       System.out.println(grid.getWinner());
       if (grid.getWinner() == anotherCell) playerLose();
       else if (!grid.canMakeNextStep()) nobodyWin();
