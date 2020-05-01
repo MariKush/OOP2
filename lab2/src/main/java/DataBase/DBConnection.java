@@ -34,14 +34,6 @@ public class DBConnection {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return true;
     }
@@ -59,16 +51,7 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
         return -1;
     }
 
@@ -78,7 +61,7 @@ public class DBConnection {
                 "WHERE carID="+carID+" AND NOT ((" +
                 "TO_DATE('" + startDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate) OR " +
                 "(TO_DATE('" + endDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate))";
-        log.info("check whether this machine is available for this period");
+        log.info("Check whether this car is available for this period");
         return getID(sql)!=-1;
     }
 
@@ -111,16 +94,7 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
         return cars;
     }
 
@@ -137,14 +111,6 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         return listString;
@@ -153,7 +119,6 @@ public class DBConnection {
     public static List<String> getCarStyles() {
         String sql = "SELECT carStyleName FROM carStyles";
         return getList(sql);
-
     }
 
     public static List<String> getCarBrands() {
@@ -177,14 +142,6 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return carModels;
     }
@@ -216,6 +173,7 @@ public class DBConnection {
         if (getBrandID(carBrandName) != -1) return false;
         String sql = "INSERT INTO carBrands(carBrandId, carBrandName) " +
                 "VALUES (carBrands_carBrandID.nextVal, '" + carBrandName + "')";
+        log.info("Add car brand: " + carBrandName);
         return getTransaction(sql);
     }
 
@@ -223,6 +181,7 @@ public class DBConnection {
         if (getStyleID(carStyleName) != -1) return false;
         String sql = "INSERT INTO carStyles(carStyleId, carStyleName) " +
                 "VALUES (carStyles_carStyleID.nextVal, '" + carStyleName + "')";
+        log.info("Add car style: " + carStyleName);
         return getTransaction(sql);
     }
 
@@ -234,6 +193,7 @@ public class DBConnection {
 
         String sql = "INSERT INTO carModels(carModelID, carModelName, carBrandID) " +
                 "VALUES (carStyles_carStyleID.nextVal, '" + carModelName + "', " + carBrandID + " )";
+        log.info("Add car model: " + carModelName);
         return getTransaction(sql);
     }
 
@@ -243,7 +203,8 @@ public class DBConnection {
 
         String sql = "INSERT INTO cars(carID, carModelID, carStyleID, yearProduction, pricePerDay) " +
                 "VALUES (cars_carID.nextVal, " + carModelID + ", " + carStyleID + ", " + carYearProduction + ", " + price + " )";
-        System.out.println(sql);
+        //System.out.println(sql);
+        log.info("Add car: " + carStyleName + " " + carYearProduction + " " + price);
         return getTransaction(sql);
     }
 
@@ -252,7 +213,8 @@ public class DBConnection {
         String sql = "INSERT INTO ORDERS (orderID,startDate, endDate, carID, name, surName, passportID, creditCard, mobileNum, state)" +
                 "VALUES(orders_orderID.nextVal, TO_DATE('" + startDay + "', 'yyyy-MM-dd'),TO_DATE('" + endDay + "', 'yyyy-MM-dd')," + carID + ", '" + name + "', '" + surName +
                 "', '" + passportID + "', '" + creditCard + "', '" + mobileNum + "', 0 )";
-        System.out.println(sql);
+        //System.out.println(sql);
+        log.info("Add order by " + name + " " + surName + " " + passportID);
         return getTransaction(sql);
     }
 
@@ -278,14 +240,6 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return orders;
     }
@@ -313,6 +267,7 @@ public class DBConnection {
         String sql = "UPDATE ORDERS " +
                 "SET state=" + 1 +
                 " WHERE orderID=" + id;
+        log.info("Order " + id + " confirmed");
         return getTransaction(sql);
 
     }
@@ -321,6 +276,7 @@ public class DBConnection {
         String sql = "UPDATE ORDERS " +
                 "SET state=" + 9 + ", comm=" + comment +
                 " WHERE orderID=" + id;
+        log.info("Order " + id + " refused because " + comment);
         return getTransaction(sql);
     }
 
@@ -328,6 +284,7 @@ public class DBConnection {
         String sql = "UPDATE ORDERS " +
                 "SET state=" + 2 +
                 " WHERE orderID=" + id;
+        log.info("Order " + id + " returned");
         return getTransaction(sql);
     }
 }

@@ -5,7 +5,7 @@
 
 %>
 <head>
-    <title>Title</title>
+    <title>Confirm order by user</title>
 </head>
 <body>
 

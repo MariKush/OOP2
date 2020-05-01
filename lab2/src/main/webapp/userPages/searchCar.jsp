@@ -10,7 +10,7 @@
 
 %>
 <head>
-    <title>Title</title>
+    <title>Search car</title>
 </head>
 <body>
 <div>
