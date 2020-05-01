@@ -9,10 +9,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class DBConnection {
+
+    private static Logger log = Logger.getLogger(DBConnection.class.getName());
 
     private static Connection createConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "MARIIA", "mariia");
@@ -75,6 +78,7 @@ public class DBConnection {
                 "WHERE carID="+carID+" AND NOT ((" +
                 "TO_DATE('" + startDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate) OR " +
                 "(TO_DATE('" + endDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate))";
+        log.info("check whether this machine is available for this period");
         return getID(sql)!=-1;
     }
 

@@ -10,7 +10,7 @@
     Model[] carModels = (Model[]) request.getAttribute("CarModels");
 %>
 <head>
-    <title>Title</title>
+    <title>Add car</title>
 </head>
 <body>
 

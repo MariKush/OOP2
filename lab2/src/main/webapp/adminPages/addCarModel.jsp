@@ -8,7 +8,7 @@
     String[] carBrands = (String[]) request.getAttribute("CarBrands");
 %>
 <head>
-    <title>Title</title>
+    <title>Add car model</title>
 </head>
 <body>
 

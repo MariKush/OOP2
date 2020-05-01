@@ -9,7 +9,7 @@
     Order[] orders = (Order[]) request.getAttribute("orders");
 %>
 <head>
-    <title>Title</title>
+    <title>Confirm order by admin</title>
 </head>
 <body>
 <% for (int i = 0; i < orders.length; i++) {%>
