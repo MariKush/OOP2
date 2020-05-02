@@ -58,11 +58,11 @@ public class DBConnection {
     private static boolean isFree(int carID, String startDate, String endDate) {
         String sql = "SELECT orderID " +
                 "FROM orders " +
-                "WHERE carID="+carID+" AND NOT ((" +
+                "WHERE carID=" + carID + " AND NOT ((" +
                 "TO_DATE('" + startDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate) OR " +
                 "(TO_DATE('" + endDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate))";
         log.info("Check whether this car is available for this period");
-        return getID(sql)!=-1;
+        return getID(sql) != -1;
     }
 
 
@@ -87,10 +87,10 @@ public class DBConnection {
             Statement statement = connection.createStatement();
             ResultSet carsSet = statement.executeQuery(sql);
             while (carsSet.next()) {
-                if (isFree(carsSet.getInt("carID"), startDate,endDate))
-                cars.add(new Car(carsSet.getInt("carID"), carsSet.getInt("yearProduction"),
-                        carsSet.getString("carModelName"), carsSet.getString("carBrandName"),
-                        carsSet.getString("carStyleName"), carsSet.getInt("pricePerDay") * countDay));
+                if (isFree(carsSet.getInt("carID"), startDate, endDate))
+                    cars.add(new Car(carsSet.getInt("carID"), carsSet.getInt("yearProduction"),
+                            carsSet.getString("carModelName"), carsSet.getString("carBrandName"),
+                            carsSet.getString("carStyleName"), carsSet.getInt("pricePerDay") * countDay));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,7 +100,6 @@ public class DBConnection {
 
     private static List<String> getList(String sql) {
         List<String> listString = new LinkedList<>();
-
         Connection connection = null;
         try {
             connection = createConnection();
@@ -112,7 +111,6 @@ public class DBConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return listString;
     }
 
@@ -130,7 +128,6 @@ public class DBConnection {
         List<Model> carModels = new LinkedList<>();
         String sql = "SELECT carModelName, carBrandName, carModelID " +
                 "FROM carModels INNER JOIN carBrands USING(carBrandID)";
-
         Connection connection = null;
         try {
             connection = createConnection();
@@ -166,6 +163,20 @@ public class DBConnection {
                 "FROM carModels " +
                 "WHERE carModelName= '" + carModelName + "'";
         return getID(sql);
+    }
+
+    public static boolean isCarID(int carID) {
+        String sql = "SELECT carID " +
+                "FROM cars " +
+                "WHERE carID= " + carID;
+        return getID(sql) == carID;
+    }
+
+    public static boolean isOrderID(int orderID) {
+        String sql = "SELECT orderID " +
+                "FROM orders " +
+                "WHERE orderID= '" + orderID;
+        return getID(sql) == orderID;
     }
 
 
@@ -218,11 +229,62 @@ public class DBConnection {
         return getTransaction(sql);
     }
 
-    private static List<Order> getOrders(String sql) {
 
+    public static boolean deleteCarBrand(String carBrandName) {
+        if (getBrandID(carBrandName) == -1) {
+            return false;
+        }
+        String sql = "DELETE FROM carBrands" +
+                "WHERE (carBrandName = '" + carBrandName + "')";
+        log.info("Delete car brand: " + carBrandName);
+        return getTransaction(sql);
+    }
+
+    public static boolean deleteCarStyle(String carStyleName) {
+        if (getStyleID(carStyleName) == -1) {
+            return false;
+        }
+        String sql = "DELETE FROM carStyles" +
+                "WHERE (carStyleName = '" + carStyleName + "')";
+        log.info("Delete car style: " + carStyleName);
+        return getTransaction(sql);
+    }
+
+    public static boolean deleteCarModel(String carModelName) {
+        if (getModelID(carModelName) == -1) {
+            return false;
+        }
+        String sql = "DELETE FROM carModels" +
+                "WHERE (carModelName = '" + carModelName + "')";
+        log.info("Delete car model: " + carModelName);
+        return getTransaction(sql);
+    }
+
+    public static boolean deleteCar(int carID) {
+        if(!isCarID(carID)) {
+            return false;
+        }
+        String sql = "DELETE FROM cars " +
+                "WHERE (carID =" + carID + " )";
+        log.info("Delete car by carID: " + carID);
+        return getTransaction(sql);
+    }
+
+
+    public static boolean deleteOrder(int orderID) {
+        if(!isOrderID(orderID)){
+            return false;
+        }
+        String sql = "DELETE FROM orders " +
+                "WHERE (orderID =" + orderID + ")";
+        log.info("Delete order by orderID:" + orderID);
+        return getTransaction(sql);
+    }
+
+
+    private static List<Order> getOrders(String sql) {
         List<Order> orders = new LinkedList<>();
         Connection connection = null;
-
         try {
             connection = createConnection();
             Statement statement = connection.createStatement();
