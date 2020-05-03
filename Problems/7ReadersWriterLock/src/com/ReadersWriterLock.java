@@ -6,14 +6,16 @@ class ReadersWriterLock {
 
     AtomicInteger writerReaders = new AtomicInteger(0);
 
-    public static final AtomicInteger writerBit = new AtomicInteger(1 << 30);
+    public static final AtomicInteger WRITER_BIT = new AtomicInteger(1 << 30);
 
     public ReadersWriterLock() {}
 
-    public AtomicInteger getWriterReaders() { return writerReaders; }
+    public AtomicInteger getWriterReaders() {
+        return writerReaders;
+    }
 
     public synchronized void startRead() {
-        if(writerReaders.incrementAndGet() >= writerBit.get()) {
+        if(writerReaders.incrementAndGet() >= WRITER_BIT.get()) {
             try {
                 wait();
             }
@@ -24,7 +26,7 @@ class ReadersWriterLock {
     }
 
     public synchronized void startWrite() {
-        while( writerReaders.compareAndSet(0, writerBit.get() ) != true ) {
+        while( writerReaders.compareAndSet(0, WRITER_BIT.get() ) != true ) {
             try {
                 wait();
             }
@@ -39,7 +41,7 @@ class ReadersWriterLock {
     }
 
     public synchronized void endWrite() {
-        writerReaders.set(writerReaders.get() - writerBit.get());
+        writerReaders.set(writerReaders.get() - WRITER_BIT.get());
         notifyAll();
     }
 

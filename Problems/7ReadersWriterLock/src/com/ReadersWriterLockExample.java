@@ -2,10 +2,10 @@ package com;
 
 public class ReadersWriterLockExample implements Runnable {
     Integer val;
-    ReadersWriterLock lock = new ReadersWriterLock();
+    ReadersWriterLock readersWriterLock = new ReadersWriterLock();
 
-    private final int WRITERS_NUMBER = 100;
-    private final int READERS_NUMBER = 10;
+    private final int WRITERS_NUMBER = 70;
+    private final int READERS_NUMBER = 7;
 
     public void run() {
 
@@ -38,9 +38,9 @@ public class ReadersWriterLockExample implements Runnable {
 
         @Override
         public void run() {
-            lock.startWrite();
+            readersWriterLock.startWrite();
             val = new Integer(whatToWrite);
-            lock.endWrite();
+            readersWriterLock.endWrite();
             System.out.println("\nWrite " + whatToWrite);
         }
     }
@@ -53,10 +53,10 @@ public class ReadersWriterLockExample implements Runnable {
 
         @Override
         public void run() {
-            lock.startRead();
+            readersWriterLock.startRead();
             whereToRead = val.intValue();
             System.out.print("  Read " + whereToRead);
-            lock.endRead();
+            readersWriterLock.endRead();
         }
     }
 }
