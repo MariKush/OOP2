@@ -165,6 +165,22 @@ public class DBConnection {
         return getID(sql);
     }
 
+    public static int getCarID(int carModelID, int carStyleID, int carYearProduction, int price){
+        String sql = "SELECT carID " +
+                "FROM cars " +
+                "WHERE carModelID= " + carModelID + " AND carStyleID= " + carStyleID+
+                " AND YEARPRODUCTION= " + carYearProduction + " AND PRICEPERDAY= " + price;
+        return getID(sql);
+    }
+
+    public static int getOrderId(int carID, String name, String surName, String passportID){
+        String sql = "SELECT orderID " +
+                "FROM orders " +
+                "WHERE carID= " + carID + " AND name= '" + name +
+                "' AND surName= '" + surName + "' AND passportID= '" + passportID + "'";
+        return getID(sql);
+    }
+
     public static boolean isCarID(int carID) {
         String sql = "SELECT carID " +
                 "FROM cars " +
@@ -175,7 +191,7 @@ public class DBConnection {
     public static boolean isOrderID(int orderID) {
         String sql = "SELECT orderID " +
                 "FROM orders " +
-                "WHERE orderID= '" + orderID;
+                "WHERE orderID= " + orderID;
         return getID(sql) == orderID;
     }
 
@@ -220,11 +236,13 @@ public class DBConnection {
     }
 
 
-    public static boolean addOrder(int carID, String startDay, String endDay, String name, String surName, String passportID, String creditCard, String mobileNum) {
-        String sql = "INSERT INTO ORDERS (orderID,startDate, endDate, carID, name, surName, passportID, creditCard, mobileNum, state)" +
-                "VALUES(orders_orderID.nextVal, TO_DATE('" + startDay + "', 'yyyy-MM-dd'),TO_DATE('" + endDay + "', 'yyyy-MM-dd')," + carID + ", '" + name + "', '" + surName +
-                "', '" + passportID + "', '" + creditCard + "', '" + mobileNum + "', 0 )";
-        //System.out.println(sql);
+    public static boolean addOrder(int carID, String startDay, String endDay, String name, String surName,
+                                   String passportID, String creditCard, String mobileNum) {
+        String sql = "INSERT INTO ORDERS(orderID, startDate, endDate, carID, name, surName, passportID, creditCard, mobileNum, state) " +
+                "VALUES(orders_orderID.nextVal, TO_DATE('" + startDay + "', 'yyyy-MM-dd'), TO_DATE('" + endDay + "', 'yyyy-MM-dd'), " +
+                carID + ", '" + name + "', '" + surName +
+                "', '" + passportID + "', '" + creditCard + "', '" + mobileNum + "', 0)";
+        System.out.println(sql);
         log.info("Add order by " + name + " " + surName + " " + passportID);
         return getTransaction(sql);
     }
@@ -234,8 +252,8 @@ public class DBConnection {
         if (getBrandID(carBrandName) == -1) {
             return false;
         }
-        String sql = "DELETE FROM carBrands" +
-                "WHERE (carBrandName = '" + carBrandName + "')";
+        String sql = "DELETE FROM carBrands " +
+                "WHERE carBrandName = '" + carBrandName + "'";
         log.info("Delete car brand: " + carBrandName);
         return getTransaction(sql);
     }
@@ -244,7 +262,7 @@ public class DBConnection {
         if (getStyleID(carStyleName) == -1) {
             return false;
         }
-        String sql = "DELETE FROM carStyles" +
+        String sql = "DELETE FROM carStyles " +
                 "WHERE (carStyleName = '" + carStyleName + "')";
         log.info("Delete car style: " + carStyleName);
         return getTransaction(sql);
@@ -254,7 +272,7 @@ public class DBConnection {
         if (getModelID(carModelName) == -1) {
             return false;
         }
-        String sql = "DELETE FROM carModels" +
+        String sql = "DELETE FROM carModels " +
                 "WHERE (carModelName = '" + carModelName + "')";
         log.info("Delete car model: " + carModelName);
         return getTransaction(sql);
@@ -277,7 +295,8 @@ public class DBConnection {
         }
         String sql = "DELETE FROM orders " +
                 "WHERE (orderID =" + orderID + ")";
-        log.info("Delete order by orderID:" + orderID);
+        log.info("Delete order by orderID: " + orderID);
+        //System.out.println(sql);
         return getTransaction(sql);
     }
 
