@@ -17,7 +17,7 @@
 
     <div>
         <label for="Surname"><b>Your Surname</b></label>
-        <input type="text" name="Surname" id="Surname" placeholder="Enter Surname" pattern="[A-Za-z]{2,10}" required>
+        <input type="text" name="Surname" id="Surname" placeholder="Enter Surname" pattern="[A-Za-z]{2,20}" required>
     </div>
 
     <div>
@@ -33,11 +33,12 @@
     </div>
 
     <div>
-        <label for="CreditCard">Credit Card</label>
+        <label for="CreditCard"><b>Credit Card</b></label>
         <input type="text" id="CreditCard" name="CreditCard" pattern="[0-9]{16}"/>
     </div>
 
     <input type="submit" value="Order">
+    <a href='..'> <p>return to search results</p></a>
 </form>
 
 </body>

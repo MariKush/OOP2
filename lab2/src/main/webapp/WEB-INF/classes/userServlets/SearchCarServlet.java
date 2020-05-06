@@ -67,6 +67,5 @@ public class SearchCarServlet extends HttpServlet {
 
         resp.sendRedirect("confirmOrder?id=" + id + "&startDay=" + startDay + "&endDay=" + endDay);
 
-
     }
 }

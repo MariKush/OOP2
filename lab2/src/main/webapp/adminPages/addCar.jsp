@@ -32,12 +32,14 @@
     </select><br>
 
     <label for="yearProduction"><b>yearProduction</b></label>
-    <input type="number" name="yearProduction" id="yearProduction" placeholder="Enter yearProduction" required>
+    <input type="number" name="yearProduction" id="yearProduction" placeholder="Enter yearProduction"
+           min = "2000" max="2020" required>
 
     <label for="price"><b>price</b></label>
     <input type="number" name="price" id="price" placeholder="Enter price" required>
 
     <input type="submit" id="submit" value="add car">
+    <a href="adminPage"> <p>Back to adminPage</p> </a>
 </form>
 
 </body>

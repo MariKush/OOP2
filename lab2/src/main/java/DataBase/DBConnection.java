@@ -62,7 +62,7 @@ public class DBConnection {
                 "TO_DATE('" + startDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate) OR " +
                 "(TO_DATE('" + endDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate))";
         log.info("Check whether this car is available for this period");
-        return getID(sql) != -1;
+        return getID(sql) == -1;
     }
 
 
@@ -78,6 +78,7 @@ public class DBConnection {
             sql += (i != 0 ? ", " : "") + "'" + carTypes[i] + "'";
         }
         sql += ")";
+        System.out.println(sql);
         LocalDate startDateL = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate endDateL = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         long countDay = DAYS.between(startDateL, endDateL);
@@ -242,7 +243,7 @@ public class DBConnection {
                 "VALUES(orders_orderID.nextVal, TO_DATE('" + startDay + "', 'yyyy-MM-dd'), TO_DATE('" + endDay + "', 'yyyy-MM-dd'), " +
                 carID + ", '" + name + "', '" + surName +
                 "', '" + passportID + "', '" + creditCard + "', '" + mobileNum + "', 0)";
-        System.out.println(sql);
+        //System.out.println(sql);
         log.info("Add order by " + name + " " + surName + " " + passportID);
         return getTransaction(sql);
     }
@@ -339,7 +340,7 @@ public class DBConnection {
                 "INNER JOIN carModels USING(carModelId) " +
                 "INNER JOIN carStyles USING(carStyleId) " +
                 "INNER JOIN carBrands USING (carBrandId) " +
-                "WHERE state=2 AND endDate<=current_date";
+                "WHERE state=1 AND endDate<=current_date";
         return getOrders(sql);
     }
 
@@ -355,8 +356,8 @@ public class DBConnection {
 
     public static boolean setRefused(int id, String comment) {
         String sql = "UPDATE ORDERS " +
-                "SET state=" + 9 + ", comm=" + comment +
-                " WHERE orderID=" + id;
+                "SET state=" + 9 + ", comm='" + comment +
+                "' WHERE orderID=" + id;
         log.info("Order " + id + " refused because " + comment);
         return getTransaction(sql);
     }

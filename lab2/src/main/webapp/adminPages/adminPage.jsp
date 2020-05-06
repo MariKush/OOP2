@@ -10,5 +10,6 @@
 <a href="addCarStyle"> add car Style</a>
 <a href="confirmOrderAdmin"> confirm Order</a>
 <a href="confirmReturn"> confirm Return</a>
+<a href='..'> return to the Main page</a>
 </body>
 </html>

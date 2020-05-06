@@ -34,9 +34,9 @@
         <label for="maxValue">max</label>
         <input type="number" id="maxValue" name="maxValue" min=100 max=100000 required value=100000>
     </div>
-
-
     <input type="submit" value="Search">
+    <a href='..'> <p>return to the Main page</p></a>
+
 </form>
 </body>
 </html>

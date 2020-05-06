@@ -10,6 +10,7 @@
     <input type="text" name="carBrand" id="carBrand" placeholder="Enter carBrand" required>
 
     <input type="submit" value="Add brand">
+    <a href="adminPage"> <p>Back to adminPage</p> </a>
 </form>
 
 </body>

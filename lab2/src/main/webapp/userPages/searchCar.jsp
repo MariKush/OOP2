@@ -16,7 +16,6 @@
 <div>
     <a href="searchCar"> search car</a>
 </div>
-
 <%for (int i = 0; i < cars.length; i++) { %>
 <div>
     <h2><%=cars[i]%></h2>
@@ -24,9 +23,9 @@
     <form action="../searchCar?id=<%=cars[i].getId()%>&startDay=<%=request.getParameter("startDay")%>&endDay=<%=request.getParameter("endDay")%>" method="post">
         <input type="submit" value="Order">
     </form>
+
 </div>
 <%}%>
-
-
+<a href='..'> <p>return to search</p></a>
 </body>
 </html>

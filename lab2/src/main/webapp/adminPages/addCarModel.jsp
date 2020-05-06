@@ -22,10 +22,11 @@
     </select><br>
 
 
-    <label for="carModel"><b>carStyle</b></label>
+    <label for="carModel"><b>carModel</b></label>
     <input type="text" name="carModel" id="carModel" placeholder="Enter carModel" required>
 
     <input type="submit" id="submit" value="add model">
+    <a href="adminPage"> <p>Back to adminPage</p> </a>
 </form>
 
 </body>

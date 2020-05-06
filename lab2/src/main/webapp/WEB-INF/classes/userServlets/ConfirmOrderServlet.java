@@ -1,6 +1,5 @@
 package userServlets;
 
-
 import DataBase.DBConnection;
 
 import javax.servlet.ServletException;

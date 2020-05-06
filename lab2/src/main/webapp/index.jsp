@@ -1,12 +1,11 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+<h2>Select the mode of use</h2>
 <div>
-    <a href="http://localhost:8080/orderCar"> UserPage</a>
+    <a href="http://localhost:8080/orderCar"> User</a>
 </div>
-
 <div>
-    <a href="http://localhost:8080/adminPage"> AdminPage</a>
+    <a href="http://localhost:8080/adminPage"> Admin</a>
 </div>
 </body>
 
