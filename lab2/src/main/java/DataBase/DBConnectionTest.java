@@ -2,6 +2,9 @@ package DataBase;
 
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import static DataBase.DBConnection.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +16,13 @@ class DBConnectionTest {
 
     private final int YEAR = 2000;
     private final int PRISE = 200;
+
+    @Test
+    public void createConnection() throws SQLException {
+        Connection connection = DBConnection.createConnection();
+        assertNotNull(connection);
+        connection.close();
+    }
 
     @Test
     public void addDeleteCarBrand() {

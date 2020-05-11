@@ -48,7 +48,6 @@ public class Main {
         scheduler.stop();
         scheduler.add(() -> {
         });
-        //System.out.println(runnable1.checkCorrect());
     }
 
     static class SchedulerRunnable implements Runnable {

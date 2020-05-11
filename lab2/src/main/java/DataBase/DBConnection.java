@@ -17,7 +17,7 @@ public class DBConnection {
 
     private static Logger log = Logger.getLogger(DBConnection.class.getName());
 
-    private static Connection createConnection() throws SQLException {
+    static Connection createConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "MARIIA", "mariia");
     }
 
@@ -170,7 +170,7 @@ public class DBConnection {
         String sql = "SELECT carID " +
                 "FROM cars " +
                 "WHERE carModelID= " + carModelID + " AND carStyleID= " + carStyleID+
-                " AND YEARPRODUCTION= " + carYearProduction + " AND PRICEPERDAY= " + price;
+                " AND yearProduction= " + carYearProduction + " AND pricePerDay= " + price;
         return getID(sql);
     }
 
