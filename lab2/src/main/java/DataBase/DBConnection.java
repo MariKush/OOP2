@@ -58,10 +58,9 @@ public class DBConnection {
     private static boolean isFree(int carID, String startDate, String endDate) {
         String sql = "SELECT orderID " +
                 "FROM orders " +
-                "WHERE carID=" + carID + " AND NOT ((" +
+                "WHERE carID=" + carID + " AND (" +
                 "TO_DATE('" + startDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate) OR " +
-                "(TO_DATE('" + endDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate))";
-        log.info("Check whether this car is available for this period");
+                "(TO_DATE('" + endDate + "', 'yyyy-MM-dd') BETWEEN startDate AND endDate)";
         return getID(sql) == -1;
     }
 
@@ -92,6 +91,30 @@ public class DBConnection {
                     cars.add(new Car(carsSet.getInt("carID"), carsSet.getInt("yearProduction"),
                             carsSet.getString("carModelName"), carsSet.getString("carBrandName"),
                             carsSet.getString("carStyleName"), carsSet.getInt("pricePerDay") * countDay));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cars;
+    }
+
+    public static List<Car> getCars() {
+        List<Car> cars = new LinkedList<>();
+
+        String sql = "SELECT * " +
+                "FROM cars INNER JOIN carModels USING(carModelId) " +
+                "INNER JOIN carStyles USING(carStyleId) " +
+                "INNER JOIN carBrands USING (carBrandId) ";
+
+        Connection connection = null;
+        try {
+            connection = createConnection();
+            Statement statement = connection.createStatement();
+            ResultSet carsSet = statement.executeQuery(sql);
+            while (carsSet.next()) {
+                cars.add(new Car(carsSet.getInt("carID"), carsSet.getInt("yearProduction"),
+                        carsSet.getString("carModelName"), carsSet.getString("carBrandName"),
+                        carsSet.getString("carStyleName"), 0));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -166,15 +189,21 @@ public class DBConnection {
         return getID(sql);
     }
 
-    public static int getCarID(int carModelID, int carStyleID, int carYearProduction, int price){
+    public static int getCarID(int carModelID, int carStyleID, int carYearProduction, int price) {
         String sql = "SELECT carID " +
                 "FROM cars " +
-                "WHERE carModelID= " + carModelID + " AND carStyleID= " + carStyleID+
+                "WHERE carModelID= " + carModelID + " AND carStyleID= " + carStyleID +
                 " AND yearProduction= " + carYearProduction + " AND pricePerDay= " + price;
         return getID(sql);
     }
 
-    public static int getOrderId(int carID, String name, String surName, String passportID){
+    public static int getCarPrice(int id) {
+        String sql = "SELECT pricePerDay FROM cars " +
+                "WHERE carId=" + id;
+        return getID(sql);
+    }
+
+    public static int getOrderId(int carID, String name, String surName, String passportID) {
         String sql = "SELECT orderID " +
                 "FROM orders " +
                 "WHERE carID= " + carID + " AND name= '" + name +
@@ -238,16 +267,62 @@ public class DBConnection {
 
 
     public static boolean addOrder(int carID, String startDay, String endDay, String name, String surName,
-                                   String passportID, String creditCard, String mobileNum) {
-        String sql = "INSERT INTO ORDERS(orderID, startDate, endDate, carID, name, surName, passportID, creditCard, mobileNum, state) " +
+                                   String passportID, String creditCard, String mobileNum, int price) {
+        String sql = "INSERT INTO ORDERS(orderID, startDate, endDate, carID, name, surName, passportID, creditCard, mobileNum, state, price) " +
                 "VALUES(orders_orderID.nextVal, TO_DATE('" + startDay + "', 'yyyy-MM-dd'), TO_DATE('" + endDay + "', 'yyyy-MM-dd'), " +
                 carID + ", '" + name + "', '" + surName +
-                "', '" + passportID + "', '" + creditCard + "', '" + mobileNum + "', 0)";
+                "', '" + passportID + "', '" + creditCard + "', '" + mobileNum + "', 0 ," + price + ")";
         //System.out.println(sql);
+        if (getProfitPerMonth(carID, startDay) == -1) {
+            addReport(carID, startDay);
+        }
+        addProfitPerMonth(carID, startDay, price);
         log.info("Add order by " + name + " " + surName + " " + passportID);
         return getTransaction(sql);
     }
 
+    public static int getProfitInMonth(int carId, String startDay, String endDay) {
+        String sql = "SELECT sum(price) FROM orders " +
+                "WHERE carID=" + carId + "AND " +
+                "startDate >= TO_DATE('" + startDay + "', 'yyyy-MM-dd') AND startDate < TO_DATE('" + endDay + "', 'yyyy-MM-dd')";
+        return getID(sql);
+    }
+
+    public static boolean addReport(int carID, String startDay) {
+        startDay = startDay.substring(0, 7);
+        String sql = "INSERT INTO REPORT(carID, perMonth, profit) " +
+                "VALUES(" + carID + ", TO_DATE('" + startDay + "', 'yyyy-MM'), 0)";
+        return getTransaction(sql);
+    }
+
+    public static int getProfitPerMonth(int carID, String startDay) {
+        startDay = startDay.substring(0, 7);
+        String sql = "SELECT profit FROM REPORT " +
+                "WHERE carID=" + carID + " AND perMonth=TO_DATE('" + startDay + "', 'yyyy-MM')";
+        return getID(sql);
+    }
+
+    public static int getProfit(int carId, String startDay, String endDay) {
+        String startMonth = startDay.substring(0, 7);
+        String endMonth = startDay.substring(0, 7);
+        String sql = "SELECT sum(profit) FROM report " +
+                "WHERE carId=" + carId + "AND perMonth>=TO_DATE('" + startMonth + "', 'yyyy-MM') AND " +
+                "perMonth<TO_DATE('" + endMonth + "', 'yyyy-MM')";
+        int price = getID(sql);
+        startMonth = startMonth.concat("-01");
+        endMonth = endMonth.concat("-01");
+        price-=getProfitInMonth(carId, startMonth, startDay);
+        price+=getProfitInMonth(carId, endMonth, endDay);
+        return price;
+    }
+
+    public static boolean addProfitPerMonth(int carID, String startDay, int profit) {
+        startDay = startDay.substring(0, 7);
+        String sql = "UPDATE REPORT " +
+                "SET profit=profit+" + profit + " " +
+                "WHERE carID=" + carID + " AND perMonth=TO_DATE('" + startDay + "', 'yyyy-MM')";
+        return getTransaction(sql);
+    }
 
     public static boolean deleteCarBrand(String carBrandName) {
         if (getBrandID(carBrandName) == -1) {
@@ -280,7 +355,7 @@ public class DBConnection {
     }
 
     public static boolean deleteCar(int carID) {
-        if(!isCarID(carID)) {
+        if (!isCarID(carID)) {
             return false;
         }
         String sql = "DELETE FROM cars " +
@@ -291,7 +366,7 @@ public class DBConnection {
 
 
     public static boolean deleteOrder(int orderID) {
-        if(!isOrderID(orderID)){
+        if (!isOrderID(orderID)) {
             return false;
         }
         String sql = "DELETE FROM orders " +

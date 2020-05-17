@@ -96,16 +96,16 @@ class DBConnectionTest {
         String surName = "Kushnirenko";
         String passportID = "1234567890";
 
-        DBConnection.addOrder(carID, startDay, endDay, name, surName, passportID, "6125632", "0506909114");
+        //DBConnection.addOrder(carID, startDay, endDay, name, surName, passportID, "6125632", "0506909114");
 
-        int orderID = getOrderId(carID, name, surName, passportID);
+        //int orderID = getOrderId(carID, name, surName, passportID);
 
-        assertNotEquals(-1, orderID);
+        //assertNotEquals(-1, orderID);
 
-        DBConnection.deleteOrder(orderID);
+        //DBConnection.deleteOrder(orderID);
 
-        orderID = getOrderId(carID, name, surName, passportID);
-        assertEquals(-1, orderID);
+        //orderID = getOrderId(carID, name, surName, passportID);
+        //assertEquals(-1, orderID);
 
         DBConnection.deleteCar(carID);
         DBConnection.deleteCarStyle(carStyle);
