@@ -4,11 +4,13 @@ import com.knu.demo.entity.User;
 import com.knu.demo.exception.UserNotFound;
 import com.knu.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -26,6 +28,7 @@ public class UserService {
         }
         User user = oldUser.get();
         user.setCar(currentUser.getCar());
+        log.info("update currentUser {}", currentUser);
         return user;
     }
 }

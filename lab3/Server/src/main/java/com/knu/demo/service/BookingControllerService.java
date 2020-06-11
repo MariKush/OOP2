@@ -9,12 +9,14 @@ import com.knu.demo.exception.UserNotFound;
 import com.knu.demo.service.data.BookingService;
 import com.knu.demo.service.data.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookingControllerService {
@@ -35,6 +37,8 @@ public class BookingControllerService {
 
         BookingDTO savedUserDto = bookingConverter.convertToDTO(bookingService.save(currentBooking));
         applicationEventPublisher.publishEvent(savedUserDto);
+
+        log.info("save bookingDTO {}", bookingDTO);
     }
 
     public List<BookingDTO> findBookingsByUser(String userEmail) {
@@ -46,6 +50,7 @@ public class BookingControllerService {
     }
 
     public BookingDTO updateBookingStatus(Long bookingId, String status) {
+        log.info("update Booking Status to {}", status);
         return bookingConverter.convertToDTO(this.bookingService.updateBooking(bookingId, RideStatus.valueOf(status)));
     }
 }

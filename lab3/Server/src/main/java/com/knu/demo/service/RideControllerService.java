@@ -13,12 +13,14 @@ import com.knu.demo.service.data.BookingService;
 import com.knu.demo.service.data.CarService;
 import com.knu.demo.service.data.RideService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RideControllerService {
@@ -40,6 +42,8 @@ public class RideControllerService {
         if (!car.isPresent()) {
             throw new CarNotFoundException("Car with id " + rideDTO.getCarId() + " not found");
         }
+
+        log.info("save rideDTO {}", rideDTO);
         return rideConverter.convertToDTO(rideService.save(rideConverter.convertToEntity(rideDTO, booking.get(), car.get())));
     }
 
