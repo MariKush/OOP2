@@ -1,0 +1,6 @@
+#FileLock
+#Thu Jun 11 10:39:03 EEST 2020
+hostName=Latitude-KMC
+id=172a2515c26d76274bbce0fcbf0a69e94789484c37c
+method=file
+server=192.168.1.227\:51083
