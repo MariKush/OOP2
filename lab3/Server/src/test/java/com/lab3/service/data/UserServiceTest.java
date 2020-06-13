@@ -1,7 +1,7 @@
 package com.lab3.service.data;
 
 import com.lab3.entity.User;
-import com.lab3.exception.UserNotFound;
+import com.lab3.exception.UserNotFoundException;
 import com.lab3.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ public class UserServiceTest {
     public void updateTestThrowsUserNotFound(){
         when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
 
-        assertThrows(UserNotFound.class, ()->userService.update(user));
+        assertThrows(UserNotFoundException.class, ()->userService.update(user));
 
         verify(user, never()).setCar(any());
     }

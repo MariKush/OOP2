@@ -4,7 +4,7 @@ import com.lab3.converter.BookingConverter;
 import com.lab3.dto.BookingDTO;
 import com.lab3.entity.Booking;
 import com.lab3.entity.User;
-import com.lab3.exception.UserNotFound;
+import com.lab3.exception.UserNotFoundException;
 import com.lab3.service.data.BookingService;
 import com.lab3.service.data.UserService;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class BookingControllerServiceTest {
         when(userService.findUserByEmail(any())).thenReturn(Optional.empty());
         when(bookingConverter.convertToEntity(any())).thenReturn(currentBooking);
 
-        assertThrows(UserNotFound.class, ()->bookingControllerService.save(bookingDTO)) ;
+        assertThrows(UserNotFoundException.class, ()->bookingControllerService.save(bookingDTO)) ;
 
         verify(currentBooking, never()).setUser(user);
         verify(applicationEventPublisher, never()).publishEvent(bookingDTO);

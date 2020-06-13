@@ -5,7 +5,7 @@ import com.lab3.dto.BookingDTO;
 import com.lab3.entity.Booking;
 import com.lab3.entity.RideStatus;
 import com.lab3.entity.User;
-import com.lab3.exception.UserNotFound;
+import com.lab3.exception.UserNotFoundException;
 import com.lab3.service.data.BookingService;
 import com.lab3.service.data.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class BookingControllerService {
         Booking currentBooking = bookingConverter.convertToEntity(bookingDTO);
 
         if (!user.isPresent()) {
-            throw new UserNotFound("User with email " + bookingDTO.getUserEmail() + " not found");
+            throw new UserNotFoundException("User with email " + bookingDTO.getUserEmail() + " not found");
         }
 
         currentBooking.setUser(user.get());

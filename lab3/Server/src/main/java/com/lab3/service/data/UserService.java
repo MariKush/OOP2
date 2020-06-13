@@ -1,7 +1,7 @@
 package com.lab3.service.data;
 
 import com.lab3.entity.User;
-import com.lab3.exception.UserNotFound;
+import com.lab3.exception.UserNotFoundException;
 import com.lab3.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class UserService {
     public User update(User currentUser) {
         Optional<User> oldUser = userRepository.findByEmail(currentUser.getEmail());
         if (!oldUser.isPresent()) {
-            throw new UserNotFound("User with email " + currentUser.getEmail() + " not found");
+            throw new UserNotFoundException("User with email " + currentUser.getEmail() + " not found");
         }
         User user = oldUser.get();
         user.setCar(currentUser.getCar());
