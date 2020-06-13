@@ -28,7 +28,7 @@ $ ng serve
 ```
 
 ## Configure
-in Lab3/src/main/resources/*.properties change username, password and url on your
+in Server/src/main/resources/*.properties change username, password and url on your
 
 ## Technologies
 Project is created with:
