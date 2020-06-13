@@ -37,22 +37,3 @@ public class RideConverter {
         return rides.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 }
-
-//@NotNull(message = "Price required")
-//    private int price;
-//
-//    private int carId;
-//
-//    private int bookingId;
-
-
-//private Long id;
-//
-//    @Column(name = "price")
-//    private int price;
-//
-//    @OneToOne
-//    private Car car;
-//
-//    @OneToOne
-//    private Booking booking;
