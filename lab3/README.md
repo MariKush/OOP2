@@ -40,4 +40,4 @@ Project is created with:
 * Hibernate
 * Spring Data
 * Liquidbase
-* keycloak
+* Keycloak
