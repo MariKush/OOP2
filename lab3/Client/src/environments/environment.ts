@@ -5,11 +5,11 @@
 import {KeycloakConfig} from 'keycloak-angular';
 
 const keycloakConfig: KeycloakConfig = {
-  url: 'http://localhost:8080/auth',
+  url: 'https://keycloak-lab3-mari-kush.herokuapp.com/auth',
   realm: 'Autobase',
   clientId: 'autobase-frontend',
   credentials: {
-    secret: 'a235ab14-c6d9-444f-900d-33430316a5a4',
+    secret: 'a8b3e077-da56-4b58-8950-e1cab3d0691e',
   }
 };
 

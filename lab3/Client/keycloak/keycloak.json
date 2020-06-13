@@ -1,6 +1,6 @@
 {
   "realm": "Autobase",
-  "auth-server-url": "http://localhost:8080/auth/",
+  "auth-server-url": "https://keycloak-lab3-mari-kush.herokuapp.com/auth/",
   "ssl-required": "external",
   "resource": "Client",
   "public-client": true,
