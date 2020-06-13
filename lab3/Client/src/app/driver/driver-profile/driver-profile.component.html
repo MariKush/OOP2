@@ -14,11 +14,11 @@
         <h3>Seats number:{{(userData|async)?.car.seatsNumber}}</h3>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button *ngIf="(userData|async)?.car.serviceable" color="accent"
+        <button mat-raised-button *ngIf="(userData|async)?.car.serviceable" color="warn"
                 (click)="setServiceable(false)">Set
           broken
         </button>
-        <button mat-raised-button *ngIf="(userData|async)?.car.serviceable==false" color="accent"
+        <button mat-raised-button *ngIf="(userData|async)?.car.serviceable==false" color="success"
                 (click)="setServiceable(true)">
           Set serviceable
         </button>

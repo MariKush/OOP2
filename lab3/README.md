@@ -1,4 +1,4 @@
-# Bank 
+# Car park
 It is my third lab by OOP course. 
 Dispatcher distributes trip applications between drivers, each of which has its own car. On trip may be assigned 
 a car in good condition and whose characteristics correspond to the application. The driver makes a mark about
