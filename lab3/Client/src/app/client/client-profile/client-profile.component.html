@@ -14,9 +14,9 @@
     <div *ngFor="let booking of bookings | async">
       <app-booking-simple-item [booking]="booking"></app-booking-simple-item>
     </div>
-    <button mat-fab (click)="openDialog()">
-      <mat-icon class="mat-18">add</mat-icon>
-    </button>
+      <button color="success" mat-fab (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
   </mat-card>
 
 </div>
